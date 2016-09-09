@@ -1,17 +1,16 @@
 package subreddit.android.appstore.screens.details;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import subreddit.android.appstore.backend.AppInfo;
+import subreddit.android.appstore.backend.data.AppInfo;
 
 
 public class AppDetailsPresenter implements AppDetailsContract.Presenter {
     private AppDetailsContract.View view;
     private AppInfo appInfoItem;
 
-    public AppDetailsPresenter(Intent activityIntent) {
-        appInfoItem = activityIntent.getParcelableExtra(AppDetailsActivity.ARG_KEY);
+    public AppDetailsPresenter(AppInfo appInfoItem) {
+        this.appInfoItem = appInfoItem;
     }
 
     @Override
@@ -22,7 +21,8 @@ public class AppDetailsPresenter implements AppDetailsContract.Presenter {
     @Override
     public void onAttachView(AppDetailsContract.View view) {
         this.view = view;
-        view.onShowDetails(appInfoItem);
+        if (appInfoItem == null) view.closeDetails();
+        else view.onShowDetails(appInfoItem);
     }
 
     @Override
